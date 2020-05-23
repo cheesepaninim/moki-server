@@ -17,8 +17,12 @@ app.use((req, res, next) => {
   next();
 })
 
+
+
 const api = require('./routes/index')(express)
-app.use('/api', api)
+app.use('/', api)
+
+
 
 const port = 80
 // const port = process.env.PORT || 3001
