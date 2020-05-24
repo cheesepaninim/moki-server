@@ -1,0 +1,122 @@
+{
+  "board": {
+    "id": {
+      "type": "str",
+      "required": true
+    },
+    "user_token": {
+      "type": "str",
+      "required": true
+    },
+    "like_cnt": {
+      "type": "str",
+      "required": true
+    },
+    "link_cnt": {
+      "type": "str",
+      "required": true
+    },
+    "content": {
+      "type": "str",
+      "required": true
+    },
+    "img": {
+      "type": "str",
+      "required": true
+    },
+    "created": {
+      "type": "str",
+      "required": true
+    },
+    "updated": {
+      "type": "str",
+      "required": true
+    }
+  },
+  "user_auth": {
+    "token": {
+      "type": "str",
+      "required": true
+    },
+    "social_name": {
+      "type": "str",
+      "required": true
+    },
+    "salt": {
+      "type": "str",
+      "required": true
+    },
+    "pwd": {
+      "type": "str",
+      "required": true
+    }
+  },
+  "user_info": {
+    "id": {
+      "type": "str",
+      "required": true
+    },
+    "user_token": {
+      "type": "str",
+      "required": true
+    },
+    "like_cnt": {
+      "type": "str",
+      "required": true
+    },
+    "link_cnt": {
+      "type": "str",
+      "required": true
+    },
+    "content": {
+      "type": "str",
+      "required": true
+    },
+    "img": {
+      "type": "str",
+      "required": true
+    },
+    "created": {
+      "type": "str",
+      "required": true
+    },
+    "updated": {
+      "type": "str",
+      "required": true
+    }
+  },
+  "user_like": {
+    "id": {
+      "type": "str",
+      "required": true
+    },
+    "user_token": {
+      "type": "str",
+      "required": true
+    },
+    "like_cnt": {
+      "type": "str",
+      "required": true
+    },
+    "link_cnt": {
+      "type": "str",
+      "required": true
+    },
+    "content": {
+      "type": "str",
+      "required": true
+    },
+    "img": {
+      "type": "str",
+      "required": true
+    },
+    "created": {
+      "type": "str",
+      "required": true
+    },
+    "updated": {
+      "type": "str",
+      "required": true
+    }
+  }
+}
