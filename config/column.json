@@ -1,122 +1,34 @@
 {
   "board": {
-    "id": {
-      "type": "str",
-      "required": true
-    },
-    "user_token": {
-      "type": "str",
-      "required": true
-    },
-    "like_cnt": {
-      "type": "str",
-      "required": true
-    },
-    "link_cnt": {
-      "type": "str",
-      "required": true
-    },
-    "content": {
-      "type": "str",
-      "required": true
-    },
-    "img": {
-      "type": "str",
-      "required": true
-    },
-    "created": {
-      "type": "str",
-      "required": true
-    },
-    "updated": {
-      "type": "str",
-      "required": true
-    }
+    "id": "str",
+    "user_token": "str",
+    "like_cnt": "num",
+    "link_cnt": "num",
+    "content": "str",
+    "img": "obj",
+    "created": "date",
+    "updated": "date"
   },
   "user_auth": {
-    "token": {
-      "type": "str",
-      "required": true
-    },
-    "social_name": {
-      "type": "str",
-      "required": true
-    },
-    "salt": {
-      "type": "str",
-      "required": true
-    },
-    "pwd": {
-      "type": "str",
-      "required": true
-    }
+    "token": "str",
+    "social_name": "str",
+    "salt": "str",
+    "pwd": "str"
   },
   "user_info": {
-    "id": {
-      "type": "str",
-      "required": true
-    },
-    "user_token": {
-      "type": "str",
-      "required": true
-    },
-    "like_cnt": {
-      "type": "str",
-      "required": true
-    },
-    "link_cnt": {
-      "type": "str",
-      "required": true
-    },
-    "content": {
-      "type": "str",
-      "required": true
-    },
-    "img": {
-      "type": "str",
-      "required": true
-    },
-    "created": {
-      "type": "str",
-      "required": true
-    },
-    "updated": {
-      "type": "str",
-      "required": true
-    }
+    "user_token": "str",
+    "email": "str",
+    "name": "str",
+    "intro": "str",
+    "created": "date",
+    "deleted": "date",
+    "follow": "arr.str",
+    "follower": "arr.str",
+    "board_list": "obj"
   },
   "user_like": {
-    "id": {
-      "type": "str",
-      "required": true
-    },
-    "user_token": {
-      "type": "str",
-      "required": true
-    },
-    "like_cnt": {
-      "type": "str",
-      "required": true
-    },
-    "link_cnt": {
-      "type": "str",
-      "required": true
-    },
-    "content": {
-      "type": "str",
-      "required": true
-    },
-    "img": {
-      "type": "str",
-      "required": true
-    },
-    "created": {
-      "type": "str",
-      "required": true
-    },
-    "updated": {
-      "type": "str",
-      "required": true
-    }
+    "user_token": "str",
+    "board_id": "str",
+    "liked": "bool"
   }
 }
