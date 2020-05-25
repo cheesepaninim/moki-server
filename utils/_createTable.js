@@ -1,10 +1,10 @@
 const pool = new (require('pg').Pool)(require('../config/pg'))
 const async = require('async')
 
-const user_auth = require('../modules/create/user_auth')
-const user_info = require('../modules/create/user_info')
-const board = require('../modules/create/board')
-const user_like = require('../modules/create/user_like')
+const user_auth = require('../modules/_createTable/user_auth')
+const user_info = require('../modules/_createTable/user_info')
+const board = require('../modules/_createTable/board')
+const user_like = require('../modules/_createTable/user_like')
 
 const tableList = [user_auth(), user_info(), board(), user_like()]
 const test_tableList = [user_auth('test'), user_info('test'), board('test'), user_like('test')]
