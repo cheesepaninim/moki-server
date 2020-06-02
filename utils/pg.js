@@ -13,6 +13,8 @@ const option = require('../config/pg')
 const client = new Client(option)
 const pool = new Pool(option)
 
+const status = require('../config/statusCode')
+
 // may use sentry.io
 // https://docs.sentry.io/platforms/node/
 const log = () => {}
@@ -39,8 +41,7 @@ exports.series = async fns => {
 
   await async.series([...fns], (err, res) => {
     if(err) errHandler(err)
-
     client.release()
-    console.log(res)
+    return res
   })
 }
