@@ -18,30 +18,44 @@ const status = require('../config/statusCode')
 // may use sentry.io
 // https://docs.sentry.io/platforms/node/
 const log = () => {}
-const errHandler = err => console.trace(err.stack)
-
+const defaultCallback = _ => console.log('abc')
+const defaultErrHandler = err => console.trace(err.stack)
 
 
 /* client.query */
-exports.client = async () => {
-  await client.connect()
-  await client.query('SELECT NOW()')
-      .then(res => console.log(res))
-      .catch(err => errHandler(err))
-  await client.end()
-}
-
+// exports.client = async (fn=(()=>{}), callback, fail) => {
+//   await client.connect()
+//   await client.query('SELECT NOW()')
+//       .then(res => console.log(res))
+//       .catch(err => {
+//         typeof fail === 'function'
+//           ? fail(err)
+//           : defaultErrHandler(err)
+//       })
+//   await client.end()
+// }
 
 
 /* pool.query */
-exports.series = async fns => {
+exports.series = async (fns=[], callback, fail) => {
   const client = await pool.connect()
 
   fns = fns.map(fn => cb => fn(client, cb))
 
-  await async.series([...fns], (err, res) => {
-    if(err) errHandler(err)
+  async.series([...fns], (err, res) => {
+    if(err) {
+      typeof fail === 'function'
+        ? fail(err)
+        : defaultErrHandler(err)
+    }
+
     client.release()
-    return res
+
+    typeof callback === 'function'
+      ? callback(res)
+      : (() => {
+        console.warn('warning..')
+        defaultCallback(res)
+      })()
   })
 }

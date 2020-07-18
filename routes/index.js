@@ -11,16 +11,16 @@ module.exports = express => {
 
 
 
-  // 게시글 조회
-  router.get('/board', (req, res) => require('../modules/board/getBoard.js')(req, res))
   // 게시글 등록
-  router.post('board', (req, res) => require('../modules/board/createBoard.js')(req, res))
+  router.post('/board', (req, res) => require('../modules/board.js')(req, res))
+  // 게시글 조회
+  router.get('/board/:id', (req, res) => require('../modules/board/[id].js')(req, res))
   // 게시글 수정
-  router.patch('/board', (req, res) => require('../modules/board/updateBoard.js')(req, res))
+  router.patch('/board/:id', (req, res) => require('../modules/board/[id].js')(req, res))
   // 게시글 삭제
-  router.delete('/board', (req, res) => require('../modules/board/deleteBoard.js')(req, res))
+  router.delete('/board/:id', (req, res) => require('../modules/board/[id].js')(req, res))
   // 게시글 좋아요 / 취소
-  router.get('/board/like', (req, res) => require('../modules/board/like/index.js')(req, res))
+  router.post('/board/like', (req, res) => require('../modules/board/like.js')(req, res))
 
 
 
