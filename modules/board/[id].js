@@ -35,6 +35,7 @@ module.exports = (req, res) => {
 
       querying = (client, cb) => {
         client.query('DELETE FROM _test_board WHERE id=$1', [params.id])
+          .then(_ => cb(null))
           .catch(err => cb(err))
       }
       callback = result => {
