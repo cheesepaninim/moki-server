@@ -1,20 +1,23 @@
 module.exports = (req, res) => {
   const { params, url, method } = req
 
+  /* call async.series to use pool */
+  let { series } = require('../../utils/pg')
+
+  let querying,
+      callback
+
   switch(method) {
     case 'GET':
       console.log(`[${method}] ${url}`)
 
-      /* call async.series to use pool */
-      const { series } = require('../../utils/pg')
-
-      const querying = (client, cb) => {
+      querying = (client, cb) => {
         client.query('SELECT * FROM _test_board WHERE id=$1', [params.id])
           .then(res => res.rows[0])
           .then(rows => cb(null, rows))
           .catch(err => cb(err))
       }
-      const callback = result => {
+      callback = result => {
         if (!result[0]) res.json({ status: 200, result: 'Data Not Found' })
         else res.json({ data: result[0], status: 200, result: 'Success' })
       }
@@ -29,6 +32,18 @@ module.exports = (req, res) => {
 
     case 'DELETE':
       console.log(`[${method}] ${url}`)
+
+      querying = (client, cb) => {
+        client.query('DELETE FROM _test_board WHERE id=$1', [params.id])
+          .catch(err => cb(err))
+      }
+      callback = result => {
+        // TODO: 에러처리
+        res.json({ status: 200, result: 'Success' })
+      }
+
+      series([querying], callback)
+
       break
 
     default:
