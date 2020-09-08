@@ -19,6 +19,7 @@
   "homepage": "https://github.com/cheesepaninim/moki-server#readme",
   "dependencies": {
     "async": "^3.2.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^3.22.0",
     "pg": "^8.2.1"

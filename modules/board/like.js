@@ -13,23 +13,20 @@ module.exports = (req, res) => {
       /* call async.series to use pool */
       const { series } = require('../../utils/pg')
 
-      const updateQuery = 'UPDATE _test_user_like SET liked=$1 WHERE user_token=$2 AND board_id=$3'
-      const updateQuerying = (client, cb) => {
-        client.query(updateQuery, [liked, user_token, id])
-            .then(rows => cb(null, rows))
-            .catch(err => cb(err))
-      }
-      const insertQuery = 'INSERT INTO _test_user_like (user_token, board_id, liked) SELECT $1, $2, true'
-          + ' WHERE NOT EXISTS SELECT 1 FROM _test_user_like WHERE user_token=$1 AND board_id=$2'
-      const insertQuerying = (client, cb) => {
-        client.query(insertQuery, [user_token, id]
+      const querying = (client, cb) => {
+        client.query(
+          'INSERT INTO _test_user_like (user_token, board_id, liked) VALUES($1, $2, $3) ON CONFLICT (user_token, board_id) DO UPDATE SET liked=$3',
+          [user_token, id, liked]
         )
-            .then(rows => cb(null, rows))
-            .catch(err => cb(err))
+          .then(res => console.log(`UPDATE TABLE[_test_board_like] : user_token=${user_token} AND board_id=${id} `))
+          .then(rows => cb(null, rows))
+          .catch(err => cb(err))
       }
-      const callback = result => res.json({ status: 200, result: 'Success' })
 
-      series([updateQuerying, insertQuerying], callback)
+      // TODO: board like_cnt 증감
+
+      const callback = result => res.json({ status: 200, result: 'Success' })
+      series([querying], callback)
 
       break
 

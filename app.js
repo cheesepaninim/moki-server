@@ -1,13 +1,15 @@
 const express = require('express')
 const app = express()
 const helmet = require("helmet")
+const cors = require("cors")
 
 app.set("trust proxy", 1)
 
 app.use(
     helmet(),
     express.json(),
-    express.urlencoded({ extended: false })
+    express.urlencoded({ extended: false }),
+    cors()
 )
 
 app.use((req, res, next) => {
