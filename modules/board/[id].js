@@ -1,5 +1,5 @@
 module.exports = (req, res) => {
-  const { params, url, method } = req
+  const { url, method, params, body } = req
 
   /* call async.series to use pool */
   let { series } = require('../../utils/pg')
@@ -28,10 +28,43 @@ module.exports = (req, res) => {
 
     case 'PATCH':
       console.log(`[${method}] ${url}`)
+      console.log(`body:`)
+      console.log(body)
+
+      const bodyObj = [];
+      let query = 'UPDATE _test_board '
+      if (body.content) {
+        query += ' SET content=$1 '
+        bodyObj.push(body.content)
+      }
+      if (body.img) {
+        query = bodyObj.length !== 0
+            ? query + ', img=$2'
+            : query + ' SET img=$1'
+        bodyObj.push(body.img)
+      }
+      query += `, updated=CURRENT_TIMESTAMP WHERE id=$${bodyObj.length+1}`
+      bodyObj.push(params.id)
+
+      querying = (client, cb) => {
+        client.query(query, bodyObj)
+            .then(_ => cb(null))
+            .catch(err => cb(err))
+      }
+      callback = result => {
+        // TODO: 에러처리
+        res.json({ status: 200, result: 'Success' })
+      }
+      series([querying], callback)
+
       break
 
     case 'DELETE':
       console.log(`[${method}] ${url}`)
+
+      console.log(`req.body: ${JSON.stringify(req.body)}`)
+      console.log(`url: ${url}`)
+      console.log(`params: ${JSON.stringify(params)}`)
 
       querying = (client, cb) => {
         client.query('DELETE FROM _test_board WHERE id=$1', [params.id])

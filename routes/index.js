@@ -20,7 +20,7 @@ module.exports = express => {
   // 게시글 삭제
   router.delete('/board/:id', (req, res) => require('../modules/board/[id].js')(req, res))
   // 게시글 좋아요 / 취소
-  router.post('/board/like', (req, res) => require('../modules/board/like.js')(req, res))
+  router.post('/board/:id/like', (req, res) => require('../modules/board/like.js')(req, res))
 
 
 

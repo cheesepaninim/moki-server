@@ -42,7 +42,7 @@
 |조회|`GET`|**/board/[board_id]**|
 |수정|`PATCH`|**/board/[board_id]**|{user_id, ...}|
 |삭제|`DELETE`|**/board/[board_id]**|{user_id}|
-|좋아요|`POST`|**/board/like**|{board_id}|
+|좋아요|`POST`|**/board/[board_id]/like**||
  
 ### #메인 화면
 |기능|Method|Endpoint|Params|
