@@ -1,4 +1,4 @@
-module.exports = (req, res) => {
+module.exports = async (req, res) => {
   const { url, method, params, body } = req
 
   switch(method) {
@@ -8,25 +8,64 @@ module.exports = (req, res) => {
       const user_token = 'test' // TODO: 임시 user_token
       // const { user_token } = req.session
       const id = params.id
-      const liked = body.liked === '0' ? true : false
+      const liked = body.liked === '1' ? true : false
 
       /* call async.series to use pool */
       const { series } = require('../../utils/pg')
 
-      const querying = (client, cb) => {
+/* TODO::: 기존과 같은 경우에는 실행 X */
+      const querying0 = (client, cb) => {
         client.query(
-          'INSERT INTO _test_user_like (user_token, board_id, liked) VALUES($1, $2, $3) ON CONFLICT (user_token, board_id) DO UPDATE SET liked=$3',
-          [user_token, id, liked]
+          'SELECT liked FROM _test_user_like WHERE user_token=$1 AND board_id=$2',
+          [user_token, id]
         )
-          .then(res => console.log(`UPDATE TABLE[_test_board_like] : user_token=${user_token} AND board_id=${id} `))
+          .then(res => {
+            console.log(`SELECT liked FROM _test_user_like WHERE user_token=${user_token} AND board_id=${id}`)
+            return res.rows[0]
+          })
           .then(rows => cb(null, rows))
           .catch(err => cb(err))
       }
 
-      // TODO: board like_cnt 증감
+      const callback0 = result => {
+        console.log(`result: ${result[0].liked}`)
+        console.log(`liked: ${liked}`)
+        if (result[0].liked === liked) {
+          console.log('\nTTTTTTTTTTTTTTTTTTTTTTTT')
+          return res.json({ status: 200, result: 'Nothing Updated..' })
+        }
+        else {
+          console.log('\nFFFFFFFFFFFFFFFFFFFFFFFF')
+          nextProcess()
+        }
+      }
 
-      const callback = result => res.json({ status: 200, result: 'Success' })
-      series([querying], callback)
+      series([querying0], callback0)
+
+      const nextProcess = () => {
+
+        const querying1 = (client, cb) => {
+          client.query(
+            'INSERT INTO _test_user_like (user_token, board_id, liked) VALUES($1, $2, $3) ON CONFLICT (user_token, board_id) DO UPDATE SET liked=$3',
+            [user_token, id, liked]
+          )
+            .then(res => console.log(`UPDATE TABLE[_test_board_like] : user_token=${user_token} AND board_id=${id} `))
+            .then(rows => cb(null, rows))
+            .catch(err => cb(err))
+        }
+
+        const query = `UPDATE _test_board SET like_cnt=like_cnt${liked ? ' + ' : ' - '}1 WHERE id=$1`
+        const querying2 = (client, cb) => {
+          client.query(query, [id])
+            .then(res => console.log(query))
+            .then(rows => cb(null, rows))
+            .catch(err => cb(err))
+        }
+
+        const callback = result => res.json({ status: 200, result: 'Success' })
+        series([querying1, querying2], callback)
+
+      }
 
       break
 

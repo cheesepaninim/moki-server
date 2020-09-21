@@ -37,12 +37,12 @@ module.exports = (req, res) => {
         query += ' SET content=$1 '
         bodyObj.push(body.content)
       }
-      if (body.img) {
-        query = bodyObj.length !== 0
-            ? query + ', img=$2'
-            : query + ' SET img=$1'
-        bodyObj.push(body.img)
-      }
+      // if (body.img) {
+      //   query = bodyObj.length !== 0
+      //       ? query + ', img=$2'
+      //       : query + ' SET img=$1'
+      //   bodyObj.push(body.img)
+      // }
       query += `, updated=CURRENT_TIMESTAMP WHERE id=$${bodyObj.length+1}`
       bodyObj.push(params.id)
 
