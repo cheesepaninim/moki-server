@@ -1,6 +1,8 @@
 module.exports = async (req, res) => {
   const { url, method, params, body } = req
 
+  // TODO: 함수명 변경
+  
   switch(method) {
     case 'POST':
       console.log(`[${method}] ${url}`)
@@ -13,7 +15,7 @@ module.exports = async (req, res) => {
       /* call async.series to use pool */
       const { series } = require('../../utils/pg')
 
-/* TODO::: 기존과 같은 경우에는 실행 X */
+      /* TODO::: 기존과 같은 경우에는 실행 X */
       const querying0 = (client, cb) => {
         client.query(
           'SELECT liked FROM _test_user_like WHERE user_token=$1 AND board_id=$2',
@@ -31,11 +33,11 @@ module.exports = async (req, res) => {
         console.log(`result: ${result[0].liked}`)
         console.log(`liked: ${liked}`)
         if (result[0].liked === liked) {
-          console.log('\nTTTTTTTTTTTTTTTTTTTTTTTT')
+          // TODO: 잘못된 요청..? (기존과 같음)
           return res.json({ status: 200, result: 'Nothing Updated..' })
         }
         else {
-          console.log('\nFFFFFFFFFFFFFFFFFFFFFFFF')
+          // 
           nextProcess()
         }
       }
