@@ -30,6 +30,9 @@ app.use((req, res, next) => {
 const api = require('./routes/index')(express)
 app.use('/', api)
 
+const dummyRouter = require('./routes/dummyRouter')(express)
+app.use('/dummy', dummyRouter)
+
 const port = 80
 // const port = process.env.PORT || 3001
 app.listen(port, () => console.log(`server is running on port ${port}`))

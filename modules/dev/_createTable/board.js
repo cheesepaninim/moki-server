@@ -8,8 +8,9 @@ module.exports = env => (pool, cb) => {
         + `user_token   VARCHAR(50)                 NOT NULL,`
         + `like_cnt     INTEGER                     NOT NULL    DEFAULT 0,`
         + `link_cnt     INTEGER                     NOT NULL    DEFAULT 0,`
+        + `title        VARCHAR(120),`
         + `content      TEXT,`
-        + `img          JSONB,`
+        // + `img          JSONB,`
         + `created      TIMESTAMP WITH TIME ZONE  NOT NULL DEFAULT CURRENT_TIMESTAMP,`
         + `updated      TIMESTAMP WITH TIME ZONE,`
         + `PRIMARY KEY ("id"),`

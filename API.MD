@@ -29,7 +29,7 @@
 |탈퇴|`DELETE`|**/user/[user_id]**||
 |로그인|`POST`|**/user/signin**|{user_id, user_pwd}|
 |로그아웃|`POST`|**/user/auth/signout**|..|
-
+****
 |||||
 |:---|---:|:---|:---|
 |사용자메인|`GET`|**/user/[user_id]**|..|

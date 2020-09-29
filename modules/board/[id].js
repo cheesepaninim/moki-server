@@ -33,13 +33,25 @@ module.exports = (req, res) => {
 
       const bodyObj = [];
       let query = 'UPDATE _test_board '
+
+      let count = 0
+      if (body.title) {
+        count++
+        query += ` SET title=$${count} `
+        bodyObj.push(body.title)
+      }
       if (body.content) {
-        query += ' SET content=$1 '
+        count++
+        if (bodyObj.length > 0) query += ', '
+        else query += ' SET '
+        query += ` content=$${count} `
         bodyObj.push(body.content)
       }
 
       query += `, updated=CURRENT_TIMESTAMP WHERE id=$${bodyObj.length+1}`
       bodyObj.push(params.id)
+
+        console.log(query)
 
       querying = (client, cb) => {
         client.query(query, bodyObj)

@@ -2,7 +2,7 @@ module.exports = async (req, res) => {
   const { url, method, params, body } = req
 
   // TODO: 함수명 변경
-  
+
   switch(method) {
     case 'POST':
       console.log(`[${method}] ${url}`)
@@ -25,20 +25,26 @@ module.exports = async (req, res) => {
             console.log(`SELECT liked FROM _test_user_like WHERE user_token=${user_token} AND board_id=${id}`)
             return res.rows[0]
           })
-          .then(rows => cb(null, rows))
-          .catch(err => cb(err))
+          .then(rows =>
+              {console.log(rows);
+              cb(null, rows)}
+          )
+          .catch(err => {
+            console.log(err)
+            // cb() 하면 callback was already callled 나옴..
+            // TODO: 에러처리 필요
+          })
       }
 
       const callback0 = result => {
-        console.log(`result: ${result[0].liked}`)
-        console.log(`liked: ${liked}`)
-        if (result[0].liked === liked) {
-          // TODO: 잘못된 요청..? (기존과 같음)
-          return res.json({ status: 200, result: 'Nothing Updated..' })
+        console.log(`result: ${result}`)
+        if(!result || !result[0] || result[0].liked !== liked) {
+          //
+          nextProcess()
         }
         else {
-          // 
-          nextProcess()
+          // TODO: 잘못된 요청..? (기존과 같음)
+          return res.json({ status: 200, result: 'Nothing Updated..' })
         }
       }
 
