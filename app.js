@@ -36,3 +36,8 @@ app.use('/dummy', dummyRouter)
 const port = 80
 // const port = process.env.PORT || 3001
 app.listen(port, () => console.log(`server is running on port ${port}`))
+
+
+
+// nodejs process.env
+// http://afrobambacar.github.io/2017/03/proccess-env-of-nodejs.html

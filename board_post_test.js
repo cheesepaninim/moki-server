@@ -27,14 +27,18 @@
 
 /* call async.series to use pool */
 const { series } = require('./utils/pg')
+const moment = require('moment')
 
 const queries = []
 for(let i=0; i<20; i++) {
   // const user_token = `test_${(i%4)+1}`
-  const user_token = `test`
-  const id = `test_202009080027_${i+1}`
+  const user_token = `testABC`
+  const id = `test_${moment().format('YYYYMMDDHHmm')}_${i+1}`
 
   console.log(id)
+
+  const title = `TITLE[${i}]_${moment().format('YYYY-MM-DD HH:mm:ss')}`
+
   const contents = []
   contents.push(`What is Lorem Ipsum?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and\nmore recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.`)
   contents.push(`Why do we use it?\nIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy.\n Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).`)
@@ -46,8 +50,8 @@ for(let i=0; i<20; i++) {
   const img = {}
   const querying = (client, cb) => {
     client.query(
-        'INSERT INTO _test_board(id, user_token, content, img, like_cnt, link_cnt) VALUES($1, $2, $3, $4, 0, 0)',
-        [id, user_token, content, img]
+        'INSERT INTO _test_board(id, user_token, title, content, like_cnt, link_cnt) VALUES($1, $2, $3, $4, 0, 0)',
+        [id, user_token, title, content]
     )
         .then(res => console.log(`INSERT INTO TABLE[_test_board] : ${id} `))
         .then(rows => cb(null, rows))

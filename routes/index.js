@@ -24,6 +24,8 @@ module.exports = express => {
 
 
 
+  // 게시글 전체 조회 (O TODO: 임시)
+  router.get('/board', (req, res) => require('../modules/board.js')(req, res))
   // 게시글 등록 (O)
   router.post('/board', (req, res) => require('../modules/board.js')(req, res))
   // 게시글 조회 (O)
@@ -35,6 +37,13 @@ module.exports = express => {
   // 게시글 좋아요 / 취소 (O)
   router.post('/board/:id/like', (req, res) => require('../modules/board/like.js')(req, res))
 
+
+
+  // TODO:: s3 에 업로드 하기 전에 파일 타입 체크?
+  const { upload } = require('./../utils/upload')
+  const uploadMod = require('./../modules/upload')
+  router.use('/upload', uploadMod.beforeUpload)
+  router.post('/upload', upload.single('img'), uploadMod.afterUpload)
 
 
   return router

@@ -21,6 +21,22 @@ module.exports = (req, res) => {
   switch(method) {
     case 'GET':
       console.log(`[${method}] ${url}`)
+
+      // TODO: 임시 전체 조회
+
+      querying = (client, cb) => {
+        client.query('SELECT * FROM _test_board')
+            .then(res => res.rows)
+            .then(rows => cb(null, rows))
+            .catch(err => cb(err))
+      }
+      callback = result => {
+        if (!result[0]) res.json({ status: 200, result: 'Data Not Found' })
+        else res.json({ data: result[0], total: result[0].length, status: 200, result: 'Success' })
+      }
+
+      series([querying], callback)
+
       break
 
     case 'POST':
