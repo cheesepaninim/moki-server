@@ -24,6 +24,12 @@ module.exports = express => {
 
 
 
+  router.post('/signup', (req, res) => require('../modules/user.js')(req, res))
+  router.get('/signin/:token', (req, res) => require('../modules/user/[token].js')(req, res))
+  router.get('/signout/:token', (req, res) => require('../modules/user/[token].js')(req, res))
+
+
+
   // 게시글 전체 조회 (O TODO: 임시)
   router.get('/board', (req, res) => require('../modules/board.js')(req, res))
   // 게시글 등록 (O)

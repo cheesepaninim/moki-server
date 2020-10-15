@@ -6,6 +6,9 @@ exports.beforeUpload = (req, res, next) => {
 }
 
 exports.afterUpload = (req, res) => {
+  // formdata 에 들어간 파일이 아닌 다른 값들은 body 에서 받을 수 있다.
+  // console.log(req.body)
+
   const response = {
     status: 200,
     result: 'Success',

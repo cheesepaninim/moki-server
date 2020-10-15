@@ -3,7 +3,7 @@ const shortid = require('shortid')
 module.exports = (req, res) => {
   const { params, url, method } = req
 
-  const user_token = 'test'// TODO: 임시 user_token
+  const user_token = req.session.user_token
   // const { user_token } = req.session
 
   const id  = shortid.generate()  // board_id
@@ -44,35 +44,18 @@ module.exports = (req, res) => {
 
       // TODO: title 필요 (db 설계서도 변경 필요)
 
+      if(!user_token) {
+        return res.json({ status: 403, result: `Authorization failed` })
+      }
+
       title = req.body.title ? req.body.title : ''
       content = req.body.content ? req.body.content : ''
-      // img = req.body.img ? req.body.img : {}
 
-      // if (!id) {
-      //   return res.json({ status: 400, result: `Insufficient data - id: ${id}` })
-      // }
-      // else {
-        /*if (typeof id !== 'string') {
-          return res.json({ status: 400, result: `Invalid data type - \n id: [${typeof id}] should be string` })
-        } else */
-
-        if(typeof title !== 'string') {
-          return res.json({ status: 400, result: `Invalid data type - \n content: [${typeof content}] should be string` })
-        } else if (typeof content !== 'string') {
-          return res.json({status: 400, result: `Invalid data type - \n content: [${typeof content}] should be string`})
-        } /*else if (typeof img !== 'object') {
-          return res.json({ status: 400, result: `Invalid data type - \n img: [${typeof img}] should be object` })
-        }*/
-
-      // }
-
-      // if (Object.keys(img).length !== 0 && i) {
-      //   Object.keys(img).forEach(val => {
-      //     if (typeof img[val] !== 'object') {
-      //       return res.json({ status: 400, result: `Invalid data type - \n img.${val}: [${typeof img[val]}] should be object` })
-      //     }
-      //   })
-      // }
+      if(typeof title !== 'string') {
+        return res.json({ status: 400, result: `Invalid data type - \n content: [${typeof content}] should be string` })
+      } else if (typeof content !== 'string') {
+        return res.json({status: 400, result: `Invalid data type - \n content: [${typeof content}] should be string`})
+      }
 
       querying = (client, cb) => {
         client.query(
@@ -94,49 +77,7 @@ module.exports = (req, res) => {
 
       break
 
-    // case 'PATCH':
-    //   console.log(`[${method}] ${url}`)
-    //
-    //   content = req.body.content ? req.body.content : ''
-    //   // img = req.body.img ? req.body.img : {}
-    //
-    //   if (!id) {
-    //     return res.json({ status: 400, result: `Insufficient data - id: ${id}` })
-    //   }
-    //   else {
-    //     if (typeof id !== 'string') {
-    //       return res.json({ status: 400, result: `Invalid data type - \n id: [${typeof id}] should be string` })
-    //     } else if (typeof content !== 'string') {
-    //       return res.json({ status: 400, result: `Invalid data type - \n content: [${typeof content}] should be string` })
-    //     } else if (typeof img !== 'object') {
-    //       return res.json({ status: 400, result: `Invalid data type - \n img: [${typeof img}] should be object` })
-    //     }
-    //   }
-    //
-    //   // if (Object.keys(img).length !== 0 && i) {
-    //   //   Object.keys(img).forEach(val => {
-    //   //     if (typeof img[val] !== 'object') {
-    //   //       return res.json({ status: 400, result: `Invalid data type - \n img.${val}: [${typeof img[val]}] should be object` })
-    //   //     }
-    //   //   })
-    //   // }
-    //
-    //   // TODO: user_token 검증 필요
-    //
-    //   /* q */
-    //   /* // q */
-    //
-    //   querying = (client, cb) => {
-    //     client.query('UPDATE _test_board SET content=$1 WHERE id=$2', [content, id])
-    //         .then(res => console.log(`UPDATE TABLE[_test_board] : ${id} `))
-    //         .then(rows => cb(null, rows))
-    //         .catch(err => cb(err))
-    //   }
-    //   callback = result => res.json({ status: 200, result: 'Success' })
-    //
-    //   series([querying], callback)
-    //
-    //   break
+
 
     default:
       console.log(`[${method}] ${url}`)

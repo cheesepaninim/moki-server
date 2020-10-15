@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const helmet = require('helmet')
 const cors = require('cors')
+const cookieSession = require('cookie-session')
+const cookieSessionOpt = require('./config/cookieSession')
 
 app.set('trust proxy', 1)
 
@@ -9,7 +11,8 @@ app.use(
     helmet(),
     express.json(),
     express.urlencoded({ extended: false }),
-    cors()
+    cors(),
+    cookieSession(cookieSessionOpt)
 )
 
 app.use((req, res, next) => {
