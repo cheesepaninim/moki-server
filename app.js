@@ -3,7 +3,7 @@ const app = express()
 const helmet = require('helmet')
 const cors = require('cors')
 const cookieSession = require('cookie-session')
-const cookieSessionOpt = require('./config/cookieSession')
+const cookieSessionOpt = require('./_config/cookieSession')
 
 app.set('trust proxy', 1)
 
@@ -33,14 +33,7 @@ app.use((req, res, next) => {
 const api = require('./routes/index')(express)
 app.use('/', api)
 
-const dummyRouter = require('./routes/dummyRouter')(express)
-app.use('/dummy', dummyRouter)
-
 const port = 80
 // const port = process.env.PORT || 3001
 app.listen(port, () => console.log(`server is running on port ${port}`))
 
-
-
-// nodejs process.env
-// http://afrobambacar.github.io/2017/03/proccess-env-of-nodejs.html

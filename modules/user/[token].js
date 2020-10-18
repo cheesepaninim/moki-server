@@ -13,7 +13,7 @@ module.exports = (req, res) => {
 
   const action = url.split('/')[1]
   switch(action) {
-    case 'login': {
+    case 'signin': {
       console.log(`[${method}] ${url}`)
 
       querying = (client, cb) => {
@@ -53,7 +53,7 @@ module.exports = (req, res) => {
       break
     }
 
-    case 'logout': {
+    case 'signout': {
       delete req.session.user_token
       return res.json({ status: 200, result: 'Success' })
     }

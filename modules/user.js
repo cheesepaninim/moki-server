@@ -1,34 +1,41 @@
-const shortid = require('shortid')
-
 module.exports = (req, res) => {
-  const { params, url, method } = req
+  const { url, method } = req
 
-  const user_token = req.session.user_token
-  // const { user_token } = req.session
+  const { user_token } = req.body
 
-  const id  = shortid.generate()  // board_id
-
-  let title,
-      content,
-      querying,
-      query,
-      reqData,
+  let querying,
       callback
 
   /* call async.series to use pool */
   const { series } = require('../utils/pg')
 
-  switch(method) {
+  if(method !== 'POST') {
+    return res.json({ status: 405, result: 'Method Not Allowed' })
+  }
 
-    case 'POST':
+  const action = url.split('/')[1]
+  switch(action) {
+    case '':
       console.log(`[${method}] ${url}`)
-
-      // TODO: title 필요 (db 설계서도 변경 필요)
-
-      const user_token = req.body.user_token
+      // console.log(req.session.user_token, user_token)
 
       if(!user_token) {
-        return res.json({ status: 403, result: `Authorization failed` })
+        return res.json({ status: 405, result: `Missing Params: [user_token (string)] ` })
+      }
+
+      if(req.session.user_token !== user_token) {
+        return res.json({ status: 403, result: `Authorization failed ` })
+      }
+
+      return res.json({ status: 200, result: `Success` })
+
+      break
+
+    case 'signup':
+      console.log(`[${method}] ${url}`)
+
+      if(!user_token) {
+        return res.json({ status: 405, result: `Missing Params: [user_token (string)] ` })
       }
 
       if(typeof user_token !== 'string') {
@@ -58,11 +65,5 @@ module.exports = (req, res) => {
 
       break
 
-
-
-    default:
-      console.log(`[${method}] ${url}`)
-      res.json({ status: 405, result: 'Method Not Allowed' })
-      break
   }
 }

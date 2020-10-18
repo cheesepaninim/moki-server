@@ -8,12 +8,12 @@
 
 const async = require('async')
 const { Pool, Client } = require('pg')
-const option = require('../config/pg')
+const option = require('../_config/pg')
 
 const client = new Client(option)
 const pool = new Pool(option)
 
-const status = require('../config/statusCode')
+const status = require('../_config/statusCode')
 
 // may use sentry.io
 // https://docs.sentry.io/platforms/node/

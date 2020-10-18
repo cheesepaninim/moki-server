@@ -28,7 +28,6 @@ root
  ├ utils                // query 등 모듈  
  │ ├ dev                // 테스트 등 내부적으로 사용할 모듈
  │ │ ├ _createTable.js  
- │ │ └ _dummyGen.js  
  │ ├ pg.js  
  │ └ check.js
  │ 
@@ -42,3 +41,9 @@ root
 [helmet](https://helmetjs.github.io/) : express 보안 (HTTP headers)  
 [async](https://caolan.github.io/async/v3/) : 비동기 함수 사용  
 [pg](https://node-postgres.com//) : pgSql
+
+
+// TODOLIST
+0) modules/board.js, modules/user.js -> 각 폴더 안에 index.js 로 옮기기
+1) 주석 정리
+2) res 응답값 정리

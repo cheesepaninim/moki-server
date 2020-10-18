@@ -1,5 +1,5 @@
-module.exports = express => {
-  const router = express.Router()
+module.exports = router => {
+
   router.get('/', (req, res) => res.json({ data: 'dummy!' }))
 
   // 한 개의 더미 게시글 생성

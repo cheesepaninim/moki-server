@@ -1,7 +1,0 @@
-{
-  "user": "postgres",
-  "host": "moki.cklbgvlyzed5.ap-northeast-2.rds.amazonaws.com",
-  "database": "postgres",
-  "password": "moki12#$",
-  "port": 5432
-}

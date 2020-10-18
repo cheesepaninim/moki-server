@@ -1,4 +1,4 @@
-const pool = new (require('pg').Pool)(require('../../config/pg'))
+const pool = new (require('pg').Pool)(require('../../_config/pg'))
 const async = require('async')
 
 const user_auth = require('../../modules/dev/_createTable/user_auth')
