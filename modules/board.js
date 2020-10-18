@@ -1,7 +1,7 @@
 const shortid = require('shortid')
 
 module.exports = (req, res) => {
-  const { params, url, method } = req
+  const { query, url, method } = req
 
   const user_token = req.session.user_token
   // const { user_token } = req.session
@@ -11,7 +11,6 @@ module.exports = (req, res) => {
   let title,
       content,
       querying,
-      query,
       reqData,
       callback
 
@@ -22,10 +21,18 @@ module.exports = (req, res) => {
     case 'GET':
       console.log(`[${method}] ${url}`)
 
-      // TODO: 임시 전체 조회
+      // TODO:::::::::::::::::::::::::::::::::::::::::::::: 사용자 게시글 조회
+
+      let selectQuery = 'SELECT * FROM _test_board'
+      const params = []
+      if(query.token) {
+        selectQuery += ' WHERE user_token=$1'
+        params.push(query.token)
+      }
 
       querying = (client, cb) => {
-        client.query('SELECT * FROM _test_board')
+        // client.query('SELECT * FROM _test_board')
+        client.query(selectQuery, params)
             .then(res => res.rows)
             .then(rows => cb(null, rows))
             .catch(err => cb(err))
