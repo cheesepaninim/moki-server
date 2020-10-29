@@ -30,7 +30,7 @@ app.use((req, res, next) => {
   next()
 })
 
-const api = require('./routes/index')(express)
+const api = require('./routes')
 app.use('/', api)
 
 const port = 80
