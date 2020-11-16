@@ -21,7 +21,9 @@ module.exports = (req, res) => {
     case 'GET':
       console.log(`[${method}] ${url}`)
 
-      const search = query.search ? `${query.search}_cnt` : 'created'
+      // TODO:::::::::::::: 예외 처리
+      const search = (query.search === 'like' || query.search === 'link') ? `${query.search}_cnt` : 'created'
+      if(isNaN(Number(query.size))) query.size = '10'
       const size = query.size || '10'
 
       // TODO:::::::::::::::::::::::::::::::::::::::::::::: 사용자 게시글 조회
