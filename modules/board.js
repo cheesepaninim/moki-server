@@ -21,17 +21,30 @@ module.exports = (req, res) => {
     case 'GET':
       console.log(`[${method}] ${url}`)
 
+      const search = query.search ? `${query.search}_cnt` : 'created'
+      const size = query.size || '10'
+
       // TODO:::::::::::::::::::::::::::::::::::::::::::::: 사용자 게시글 조회
 
       let selectQuery = 'SELECT * FROM _test_board'
+
       const params = []
       if(query.token) {
         selectQuery += ' WHERE user_token=$1'
         params.push(query.token)
       }
 
+      if(search) {
+        selectQuery += ` ORDER BY ${search} DESC`
+      }
+
+      selectQuery += ` LIMIT $${params.length+1}`
+      params.push(size)
+
+        console.log(selectQuery)
+        console.log(params)
+
       querying = (client, cb) => {
-        // client.query('SELECT * FROM _test_board')
         client.query(selectQuery, params)
             .then(res => res.rows)
             .then(rows => cb(null, rows))
