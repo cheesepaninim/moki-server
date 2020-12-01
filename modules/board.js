@@ -22,7 +22,7 @@ module.exports = (req, res) => {
       console.log(`[${method}] ${url}`)
 
       // TODO:::::::::::::: 예외 처리
-      const search = (query.search === 'like' || query.search === 'link') ? `${query.search}_cnt` : 'created'
+      const search = query.search === '01' ? 'like_cnt' : query.search === '02' ? 'link_cnt' : 'created'
       if(isNaN(Number(query.size))) query.size = '10'
       const size = query.size || '10'
 
