@@ -1,3 +1,8 @@
+/*
+*  테이블 생성 코드
+*  ..\moki-server\utils\dev> node _createTable.js
+*/
+
 const pool = new (require('pg').Pool)(require('../../_config/pg'))
 const async = require('async')
 

@@ -8,6 +8,7 @@ module.exports = env => (pool, cb) => {
         + `email        VARCHAR(50)                 UNIQUE,`
         + `name         VARCHAR(20)                 NOT NULL,`
         + `intro        VARCHAR(200),`
+        + `image        VARCHAR(100),` // TODO: 길이 확인 필요
         + `created      TIMESTAMP WITH TIME ZONE    NOT NULL    DEFAULT CURRENT_TIMESTAMP,`
         + `deleted      TIMESTAMP WITH TIME ZONE,`
         + `follow       VARCHAR[],`

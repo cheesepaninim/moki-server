@@ -28,11 +28,12 @@ module.exports = (req, res) => {
 
       // TODO:::::::::::::::::::::::::::::::::::::::::::::: 사용자 게시글 조회
 
-      let selectQuery = 'SELECT * FROM _test_board'
+      let selectQuery = 'SELECT A.*, B.image user_image FROM _test_board A'
+                      + ' LEFT JOIN _test_user_info B ON A.user_token=B.user_token'
 
       const params = []
       if(query.token) {
-        selectQuery += ' WHERE user_token=$1'
+        selectQuery += ' WHERE A.user_token=$1'
         params.push(query.token)
       }
 
@@ -43,8 +44,8 @@ module.exports = (req, res) => {
       selectQuery += ` LIMIT $${params.length+1}`
       params.push(size)
 
-        console.log(selectQuery)
-        console.log(params)
+      console.log(selectQuery)
+      console.log(params)
 
       querying = (client, cb) => {
         client.query(selectQuery, params)
@@ -54,7 +55,10 @@ module.exports = (req, res) => {
       }
       callback = result => {
         if (!result[0]) res.json({ status: 200, result: 'Data Not Found' })
-        else res.json({ data: result[0], total: result[0].length, status: 200, result: 'Success' })
+        else {
+          console.log(result[0].rows.forEach)
+          res.json({ data: result[0], total: result[0].length, status: 200, result: 'Success' })
+        }
       }
 
       series([querying], callback)
