@@ -56,7 +56,7 @@ module.exports = (req, res) => {
       callback = result => {
         if (!result[0]) res.json({ status: 200, result: 'Data Not Found' })
         else {
-          console.log(result[0].rows.forEach)
+          // console.log(result[0].rows.forEach)
           res.json({ data: result[0], total: result[0].length, status: 200, result: 'Success' })
         }
       }
