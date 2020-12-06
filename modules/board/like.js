@@ -18,11 +18,11 @@ module.exports = async (req, res) => {
       /* TODO::: 기존과 같은 경우에는 실행 X */
       const querying0 = (client, cb) => {
         client.query(
-          'SELECT liked FROM _test_userLike WHERE userToken=$1 AND boardId=$2',
+          'SELECT liked FROM _test_user_like WHERE userToken=$1 AND boardId=$2',
           [userToken, id]
         )
           .then(res => {
-            console.log(`SELECT liked FROM _test_userLike WHERE userToken=${userToken} AND boardId=${id}`)
+            console.log(`SELECT liked FROM _test_user_like WHERE userToken=${userToken} AND boardId=${id}`)
             return res.rows[0]
           })
           .then(rows =>
@@ -54,7 +54,7 @@ module.exports = async (req, res) => {
 
         const querying1 = (client, cb) => {
           client.query(
-            'INSERT INTO _test_userLike (userToken, boardId, liked) VALUES($1, $2, $3) ON CONFLICT (userToken, boardId) DO UPDATE SET liked=$3',
+            'INSERT INTO _test_user_like (userToken, boardId, liked) VALUES($1, $2, $3) ON CONFLICT (userToken, boardId) DO UPDATE SET liked=$3',
             [userToken, id, liked]
           )
             .then(res => console.log(`UPDATE TABLE[_test_board_like] : userToken=${userToken} AND boardId=${id} `))

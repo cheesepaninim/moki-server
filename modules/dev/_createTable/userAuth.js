@@ -1,5 +1,5 @@
 module.exports = env => (pool, cb) => {
-    let tableName = 'userAuth'
+    let tableName = 'user_auth'
     env = env ? `_${env}_` : ''
     tableName = env + tableName
 

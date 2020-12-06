@@ -29,7 +29,7 @@ module.exports = (req, res) => {
       // TODO:::::::::::::::::::::::::::::::::::::::::::::: 사용자 게시글 조회
 
       let selectQuery = 'SELECT A.*, B.image userImage FROM _test_board A'
-                      + ' LEFT JOIN _test_userInfo B ON A.userToken=B.userToken'
+                      + ' LEFT JOIN _test_user_info B ON A.userToken=B.userToken'
 
       const params = []
       if(query.token) {

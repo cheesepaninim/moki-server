@@ -14,7 +14,7 @@ module.exports = env => (pool, cb) => {
         + `created      TIMESTAMP WITH TIME ZONE  NOT NULL DEFAULT CURRENT_TIMESTAMP,`
         + `updated      TIMESTAMP WITH TIME ZONE,`
         + `PRIMARY KEY ("id"),`
-        + `CONSTRAINT "FK__${env}userAuth" FOREIGN KEY ("userToken") REFERENCES "public"."${env}userAuth" ("token") ON UPDATE NO ACTION ON DELETE NO ACTION`
+        + `CONSTRAINT "FK__${env}user_auth" FOREIGN KEY ("userToken") REFERENCES "public"."${env}user_auth" ("token") ON UPDATE NO ACTION ON DELETE NO ACTION`
         + `)`
         , function(err, result){
             if(err) return cb(`\n[ERROR] (${tableName})\n -> ${err}\n\n`)

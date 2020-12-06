@@ -44,10 +44,10 @@ module.exports = (req, res) => {
 
       querying = (client, cb) => {
         client.query(
-            'INSERT INTO _test_userAuth(token) VALUES($1)',
+            'INSERT INTO _test_user_auth(token) VALUES($1)',
             [userToken]
         )
-            .then(res => console.log(`INSERT INTO TABLE[_test_userAuth] : ${userToken} `))
+            .then(res => console.log(`INSERT INTO TABLE[_test_user_auth] : ${userToken} `))
             .then(rows => cb(null, rows))
             .catch(err => {
               if(err.code = '23505') return res.json({ status: 200, result: `Already Exist userToken: ${userToken}` })

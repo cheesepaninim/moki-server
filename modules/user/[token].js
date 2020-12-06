@@ -17,7 +17,7 @@ module.exports = (req, res) => {
       console.log(`[${method}] ${url}`)
 
       querying = (client, cb) => {
-        client.query('SELECT * FROM _test_userAuth WHERE token=$1', [params.token])
+        client.query('SELECT * FROM _test_user_auth WHERE token=$1', [params.token])
             .then(res => res.rows[0])
             .then(rows => cb(null, rows))
             .catch(err => cb(err))
@@ -39,7 +39,7 @@ module.exports = (req, res) => {
       const nextProcess = () => {
 
         const querying = (client, cb) => {
-          client.query('INSERT INTO _test_userAccessLog (userToken) VALUES($1)', [params.token])
+          client.query('INSERT INTO _test_user_access_log (userToken) VALUES($1)', [params.token])
               .then(rows => cb(null, rows))
               .catch(err => cb(err))
         }
