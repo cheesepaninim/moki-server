@@ -3,33 +3,46 @@
 *  ..\moki-server\utils\dev> node _createTable.js
 */
 
-const pool = new (require('pg').Pool)(require('../../_config/pg'))
-const async = require('async')
+const env = 'dev'
+// const env = 'prod'
 
-const userAuth = require('../../modules/dev/_createTable/userAuth')
-const userAccessLog = require('../../modules/dev/_createTable/userAccessLog')
-const userInfo = require('../../modules/dev/_createTable/userInfo')
-const board = require('../../modules/dev/_createTable/board')
-const userLike = require('../../modules/dev/_createTable/userLike')
+;(env => {
+  console.log(`___________________________________${env}`)
+  env = env === 'dev' ? 'test' : ''
 
-const tableList = [userAuth(), userAccessLog(), userInfo(), board(), userLike()]
-const testTableList = [userAuth('test'), userAccessLog('test'), userInfo('test'), board('test'), userLike('test')]
+  const pool = new (require('pg').Pool)(require('../../_config/pg'))
+  const async = require('async')
 
-async.waterfall(
-    [
-      cb => {
-        console.log('\n\n[START] CREATE TABLE')
-        cb(null, pool)
-      },
-      ...tableList,
-      ...testTableList
-    ],
-    (err, result) => {
-      if(err) console.log(`${err}`)
-
-      console.log('[END] CREATE TABLE\n')
-      pool.end()
-    }
-)
+  const userAuth = require('../../modules/dev/_createTable/userAuth')
+  const userAccessLog = require('../../modules/dev/_createTable/userAccessLog')
+  const userInfo = require('../../modules/dev/_createTable/userInfo')
+  const board = require('../../modules/dev/_createTable/board')
+  const userLike = require('../../modules/dev/_createTable/userLike')
 
 
+  const tableList = [
+    userAuth.create(env), /*userAuth.alter(env),*/
+    userAccessLog.create(env), /*userAccessLog.create(),*/
+    // userInfo.create(), userInfo.create(),
+    // board.create(), board.create(),
+    // userLike.create(), board.alter(),
+  ]
+
+  async.waterfall(
+      [
+        cb => {
+          console.log('\n\n[START] CREATE TABLE')
+          cb(null, pool)
+        },
+        ...tableList,
+      ],
+      (err, result) => {
+        if (err) console.log(`${err}`)
+
+        console.log('[END] CREATE TABLE\n')
+        pool.end()
+      }
+  )
+
+
+})(env)
