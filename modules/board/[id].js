@@ -8,7 +8,7 @@ module.exports = (req, res) => {
       callback,
       nextProcess
 
-  const user_token = req.session.user_token
+  const userToken = req.session.userToken
 
   switch(method) {
     case 'GET':
@@ -34,7 +34,7 @@ module.exports = (req, res) => {
       console.log(`body:`)
       console.log(body)
 
-      if(!user_token) {
+      if(!userToken) {
         return res.json({ status: 403, result: `Authorization failed` })
       }
 
@@ -46,7 +46,7 @@ module.exports = (req, res) => {
       }
       callback = result => {
         if(!result[0]) return res.json({ status: 200, result: 'Data Not Found' })
-        if(result[0].user_token !== user_token) return res.json({ status: 403, result: `Authorization failed` })
+        if(result[0].userToken !== userToken) return res.json({ status: 403, result: `Authorization failed` })
 
         nextProcess()
       }
@@ -69,8 +69,8 @@ module.exports = (req, res) => {
           bodyObj.push(body.content)
         }
 
-        query += `, updated=CURRENT_TIMESTAMP WHERE id=$${bodyObj.length+1} AND user_token=$${bodyObj.length+2}`
-        bodyObj.push(params.id, user_token)
+        query += `, updated=CURRENT_TIMESTAMP WHERE id=$${bodyObj.length+1} AND userToken=$${bodyObj.length+2}`
+        bodyObj.push(params.id, userToken)
 
         console.log(query)
 
@@ -95,7 +95,7 @@ module.exports = (req, res) => {
       console.log(`url: ${url}`)
       console.log(`params: ${JSON.stringify(params)}`)
 
-      if(!user_token) {
+      if(!userToken) {
         return res.json({ status: 403, result: `Authorization failed` })
       }
 
@@ -107,7 +107,7 @@ module.exports = (req, res) => {
       }
       callback = result => {
         if(!result[0]) return res.json({ status: 200, result: 'Data Not Found' })
-        if(result[0].user_token !== user_token) return res.json({ status: 403, result: `Authorization failed` })
+        if(result[0].userToken !== userToken) return res.json({ status: 403, result: `Authorization failed` })
 
         nextProcess()
       }

@@ -19,18 +19,18 @@ module.exports = (req, res) => {
 
       const queries = []
       for(let i=0; i<num; i++) {
-        const id = shortid.generate()  // board_id
-        const user_token = body.user_token || testUsers[i%5]
+        const id = shortid.generate()  // boardId
+        const userToken = body.userToken || testUsers[i%5]
         const title = faker.fake("'{{name.title}}' by {{name.lastName}} {{name.firstName}}.")
         const content = `${faker.lorem.lines()}\n<img src="${faker.image.imageUrl}"/><br/><br/>${faker.lorem.sentences()}<br/>${faker.lorem.sentences()}${faker.lorem.sentences()}`
-        const like_cnt = Math.floor(Math.random()*10001)
-        const link_cnt = Math.floor(Math.random()*10001)
+        const likeCnt = Math.floor(Math.random()*10001)
+        const linkCnt = Math.floor(Math.random()*10001)
 
         const querying = (client, cb) => {
           client.query(
-              'INSERT INTO _test_board(id, user_token, title, content, like_cnt, link_cnt)'
+              'INSERT INTO _test_board(id, userToken, title, content, likeCnt, linkCnt)'
               + ' VALUES($1, $2, $3, $4, $5, $6)',
-              [id, user_token, title, content, like_cnt, link_cnt]
+              [id, userToken, title, content, likeCnt, linkCnt]
           )
               .then(res => {if(i%10 === 0) {console.log(`INSERT INTO TABLE[_test_board].. COUNT: ${i+1}`)}})
               .then(rows => cb(null, rows))

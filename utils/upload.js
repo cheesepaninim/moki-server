@@ -19,7 +19,7 @@ const storage = multerS3({
   },
   key: function (req, file, cb) {
     // TODO:::
-    cb(null, `uploads/${req.user_token}/${Date.now()}_${file.originalname}`)
+    cb(null, `uploads/${req.userToken}/${Date.now()}_${file.originalname}`)
   },
 })
 

@@ -1,7 +1,7 @@
 module.exports = (req, res) => {
   const { url, method } = req
 
-  const { user_token } = req.body
+  const { userToken } = req.body
 
   let querying,
       callback
@@ -17,13 +17,13 @@ module.exports = (req, res) => {
   switch(action) {
     case '':
       console.log(`[${method}] ${url}`)
-      // console.log(req.session.user_token, user_token)
+      // console.log(req.session.userToken, userToken)
 
-      if(!user_token) {
-        return res.json({ status: 405, result: `Missing Params: [user_token (string)] ` })
+      if(!userToken) {
+        return res.json({ status: 405, result: `Missing Params: [userToken (string)] ` })
       }
 
-      if(req.session.user_token !== user_token) {
+      if(req.session.userToken !== userToken) {
         return res.json({ status: 403, result: `Authorization failed ` })
       }
 
@@ -34,31 +34,31 @@ module.exports = (req, res) => {
     case 'signup':
       console.log(`[${method}] ${url}`)
 
-      if(!user_token) {
-        return res.json({ status: 405, result: `Missing Params: [user_token (string)] ` })
+      if(!userToken) {
+        return res.json({ status: 405, result: `Missing Params: [userToken (string)] ` })
       }
 
-      if(typeof user_token !== 'string') {
-        return res.json({ status: 400, result: `Invalid data type - \n content: [${typeof user_token}] should be string` })
+      if(typeof userToken !== 'string') {
+        return res.json({ status: 400, result: `Invalid data type - \n content: [${typeof userToken}] should be string` })
       }
 
       querying = (client, cb) => {
         client.query(
-            'INSERT INTO _test_user_auth(token) VALUES($1)',
-            [user_token]
+            'INSERT INTO _test_userAuth(token) VALUES($1)',
+            [userToken]
         )
-            .then(res => console.log(`INSERT INTO TABLE[_test_user_auth] : ${user_token} `))
+            .then(res => console.log(`INSERT INTO TABLE[_test_userAuth] : ${userToken} `))
             .then(rows => cb(null, rows))
             .catch(err => {
-              if(err.code = '23505') return res.json({ status: 200, result: `Already Exist user_token: ${user_token}` })
+              if(err.code = '23505') return res.json({ status: 200, result: `Already Exist userToken: ${userToken}` })
               else cb(err)
             })
       }
       callback = result => res.json({
         status: 200,
         result: 'Success',
-        message: `[${user_token}] created`,
-        user_token: user_token
+        message: `[${userToken}] created`,
+        userToken: userToken
       })
 
       series([querying], callback)

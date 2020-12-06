@@ -1,11 +1,11 @@
 module.exports = env => (pool, cb) => {
-    let tableName = 'user_auth'
+    let tableName = 'userAuth'
     env = env ? `_${env}_` : ''
     tableName = env + tableName
 
     pool.query(`CREATE TABLE IF NOT EXISTS ${tableName}(`
         + `token            VARCHAR(50)     NOT NULL,`
-        + `social_name       VARCHAR(10)     NOT NULL DEFAULT 'moki',`
+        + `socialName       VARCHAR(10)     NOT NULL DEFAULT 'moki',`
         + `salt             VARCHAR(64),`
         + `pwd              VARCHAR(64),`
         + `PRIMARY KEY ("token")`

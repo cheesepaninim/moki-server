@@ -1,6 +1,6 @@
 exports.beforeUpload = (req, res, next) => {
   const { url, method } = req
-  req.user_token = 'test'// TODO: 임시 user_token
+  req.userToken = 'test'// TODO: 임시 userToken
 
   next()
 }

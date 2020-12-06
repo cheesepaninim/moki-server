@@ -25,24 +25,24 @@
 |기능|Method|Endpoint|Params|
 |:---|---:|:---|:---|
 |회원가입|`POST`|**/user**||
-|개인정보수정|`PATCH`|**/user/[user_id]**||
-|탈퇴|`DELETE`|**/user/[user_id]**||
-|로그인|`POST`|**/user/signin**|{user_id, user_pwd}|
+|개인정보수정|`PATCH`|**/user/[userId]**||
+|탈퇴|`DELETE`|**/user/[userId]**||
+|로그인|`POST`|**/user/signin**|{userId, userPwd}|
 |로그아웃|`POST`|**/user/auth/signout**|..|
 ****
 |||||
 |:---|---:|:---|:---|
-|사용자메인|`GET`|**/user/[user_id]**|..|
-|게시글목록|`GET`|**/user/board**|{user_id}|
+|사용자메인|`GET`|**/user/[userId]**|..|
+|게시글목록|`GET`|**/user/board**|{userId}|
 
 ### #게시글
 |기능|Method|Endpoint|Params|
 |:---|---:|:---|:---|  
-|업로드|`POST`|**/board**|{user_id, ...}|
-|조회|`GET`|**/board/[board_id]**|
-|수정|`PATCH`|**/board/[board_id]**|{user_id, ...}|
-|삭제|`DELETE`|**/board/[board_id]**|{user_id}|
-|좋아요|`POST`|**/board/[board_id]/like**||
+|업로드|`POST`|**/board**|{userId, ...}|
+|조회|`GET`|**/board/[boardId]**|
+|수정|`PATCH`|**/board/[boardId]**|{userId, ...}|
+|삭제|`DELETE`|**/board/[boardId]**|{userId}|
+|좋아요|`POST`|**/board/[boardId]/like**||
  
 ### #메인 화면
 |기능|Method|Endpoint|Params|

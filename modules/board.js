@@ -3,10 +3,10 @@ const shortid = require('shortid')
 module.exports = (req, res) => {
   const { query, url, method } = req
 
-  const user_token = req.session.user_token
-  // const { user_token } = req.session
+  const userToken = req.session.userToken
+  // const { userToken } = req.session
 
-  const id  = shortid.generate()  // board_id
+  const id  = shortid.generate()  // boardId
 
   let title,
       content,
@@ -22,18 +22,18 @@ module.exports = (req, res) => {
       console.log(`[${method}] ${url}`)
 
       // TODO:::::::::::::: 예외 처리
-      const search = query.search === '01' ? 'like_cnt' : query.search === '02' ? 'link_cnt' : 'created'
+      const search = query.search === '01' ? 'likeCnt' : query.search === '02' ? 'linkCnt' : 'created'
       if(isNaN(Number(query.size))) query.size = '10'
       const size = query.size || '10'
 
       // TODO:::::::::::::::::::::::::::::::::::::::::::::: 사용자 게시글 조회
 
-      let selectQuery = 'SELECT A.*, B.image user_image FROM _test_board A'
-                      + ' LEFT JOIN _test_user_info B ON A.user_token=B.user_token'
+      let selectQuery = 'SELECT A.*, B.image userImage FROM _test_board A'
+                      + ' LEFT JOIN _test_userInfo B ON A.userToken=B.userToken'
 
       const params = []
       if(query.token) {
-        selectQuery += ' WHERE A.user_token=$1'
+        selectQuery += ' WHERE A.userToken=$1'
         params.push(query.token)
       }
 
@@ -70,7 +70,7 @@ module.exports = (req, res) => {
 
       // TODO: title 필요 (db 설계서도 변경 필요)
 
-      if(!user_token) {
+      if(!userToken) {
         return res.json({ status: 403, result: `Authorization failed` })
       }
 
@@ -85,8 +85,8 @@ module.exports = (req, res) => {
 
       querying = (client, cb) => {
         client.query(
-            'INSERT INTO _test_board(id, user_token, title, content, like_cnt, link_cnt) VALUES($1, $2, $3, $4, 0, 0)',
-            [id, user_token, title, content]
+            'INSERT INTO _test_board(id, userToken, title, content, likeCnt, linkCnt) VALUES($1, $2, $3, $4, 0, 0)',
+            [id, userToken, title, content]
         )
             .then(res => console.log(`INSERT INTO TABLE[_test_board] : ${id} `))
             .then(rows => cb(null, rows))
